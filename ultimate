@@ -1,0 +1,79 @@
+#!/bin/bash
+# ultimate (bash)
+
+usage="Usage:
+$(basename "$0") [-x] [args]
+
+Arguments:
+-h              show this help text
+welcome         setup .ultimate on a new machine
+uninstall       uninstall feature
+                    bin: remove sybolic link from /usr/local/bin
+\n"
+
+function usage {
+    printf "$usage"
+}
+
+function osCom {
+    if [ "$(uname)" == "Darwin" ]; then
+        $1
+    elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+        $2
+    fi
+}
+
+if [ $# == 0 ]; then
+    usage
+    exit
+else
+    case "$1" in
+        welcome)
+            printf "Thanks for using .ultimate!  Lets get started.\n\n"
+
+            # Sybolically link ultimate to /usr/local/bin
+            printf "First, we would like to symbolically link ultimate to your local bin. (for future easy access)\n"
+            read -p "Is that okay? (y/n)? "
+            [ "$REPLY" == "y" ] && sudo ln -s -i -v ~/.ultimate/ultimate /usr/local/bin/ultimate || echo 'Alright then, maybe later...'
+            printf "Note: if you would like to remove the symbolic link in the future just run 'ultimate uninstall bin'\n"
+
+            # Check dependencies
+            printf "Now we need to check some dependencies to ensure you get the most out of ultimate!"
+            # OSX Package manager
+            if [ "$(uname)" == "Darwin" ]; then
+                hash brew 2>/dev/null && echo "Package manager...Yes" || {
+                    echo "Dang, you need to install Homebrew, please follow the prompts below."
+                    ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
+                }
+            elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+                echo "Package manager...Yes"
+            fi
+            # Git
+            hash git 2>/dev/null && echo "Git...Yes" || {
+                echo "Dang, you need to install Git, please follow the prompts below."
+                mac = brew update && brew install git
+                linux = sudo apt-get update && apt-get install git-core
+                osCom $mac $linux
+            }
+            exit
+            ;;
+
+        uninstall)
+            case "$2" in
+                bin)
+                    read -p "Are you sure? (y/n)? "
+                    [ "$REPLY" == "y" ] && sudo rm -v /usr/local/bin/ultimate
+                    ;;
+
+                *)
+                    usage
+                    ;;
+            esac
+                ;;
+        *)
+            printf "'$1' is not a valid argument.\n\n"
+            usage
+            exit
+            ;;
+    esac
+fi
