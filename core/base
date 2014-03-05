@@ -1,0 +1,43 @@
+#!/bin/bash
+
+# Import dependencies
+source globals
+
+# Check status of usage
+# Determine if new to ultimate, or another adding machine
+# From ~/.ultimate/core/.usage
+# Status codes: 0=fresh, 1=add machine, 2=active
+# Add machine names and status to file for organization
+# if [ $(cat $home/settings) == "0" ]; then
+#     # First time using ultimate
+#     welcome
+# elif [ $(cat $bed/.usage) == "1" ]; then
+#     printf "Welcome back!  Thanks again for using .ultimate!"
+
+    case "$1" in
+        welcome)
+            source welcome
+            ;;
+        install)
+            echo "Coming soon..."
+            ;;
+        commit)
+            echo "Coming soon..."
+            ;;
+        push)
+            echo "Coming soon..."
+            ;;
+
+        pull)
+            echo "Coming soon..."
+            ;;
+        uninstall)
+            source uninstall
+            ;;
+        *)
+            printf "'$1' is not a valid argument.\n\n"
+            echo $docs
+            exit
+            ;;
+    esac
+# fi

@@ -1,0 +1,69 @@
+#!/bin/bash
+
+printf "Welcome, thanks for using .ultimate!  Lets get started.\n\n"
+
+# Symbolically link ultimate to bin
+printf "First, lets link up .ultimate to your bin for easy access.\n"
+read -p "Is that okay? (y/n)? "
+if [ "$REPLY" == "y" ]
+then
+    sudo ln -s -i -v $bed/base $bin/ultimate
+    printf "Awesome, lets move on...  Note: you can always add or remove the link later (see help docs)"
+else
+    printf 'It's okay, you can always add or remove the link later  (see help docs)'
+fi
+
+# Check dependencies
+printf "Now we need to check some dependencies to ensure you get the most out of ultimate!"
+
+## Package manager
+if [ $os == "osx" ]
+then
+    if [ hash brew 2>/dev/null ]
+    then
+        echo "Homebrew...Already Installed"
+    else
+        echo "Please follow any prompts below to install Homebrew."
+        ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
+        echo "Homebrew...Successfully Installed"
+    fi
+elif [ $os == "linux" ]
+then
+    if [ has apt-get 2>/dev/null ]
+    then
+        echo "apt-get...Already Installed"
+    else
+        echo "Please install apt-get and rerun 'welcome' to continue..."
+        exit
+    fi
+fi
+
+## Git
+if [ hash git 2>/dev/null ]
+then
+    echo "Git...Already Installed"
+else
+    echo "Please follow the prompts below to install Git."
+    if [ $os == "osx" ]
+    then
+        sudo brew update && brew install git
+        echo "Git...Successfully Installed"
+    elif [ $os == "linux" ]
+    then
+        sudo apt-get update && apt-get install git-core
+        echo "Git...Successfully Installed"
+    fi
+fi
+
+
+# Backup current configuration
+# Add automation
+printf "Awesome, we are almost there!\n"
+echo "Before proceeding, please backup your current configurations."
+read -p "Are you done? (y)? "
+
+# The next steps
+printf "You are now ready to start building your .ultimate configuration!\nRead some docs and have fun!"
+echo $docs
+
+# Add machine name and status to active

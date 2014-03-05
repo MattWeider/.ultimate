@@ -1,0 +1,15 @@
+#!/bin/bash
+
+docs="
+Usage:
+$(basename "$0") [-h,welcome,install,uninstall,etc...] argument
+
+Methods/Arguments:
+-h             show help text
+welcome        install fresh copy of ultimate
+install        install packages and features
+                   symlink: link ultimate to bin
+                   spf13: install spf13-vim distribution
+uninstall      uninstall packages and features 
+                   symlink: remove bin symlink
+"

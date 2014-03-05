@@ -1,0 +1,19 @@
+#!/bin/bash
+
+## Global Variables
+
+# OS
+os="unknown"
+if [ "$(uname)" == "Darwin" ]; then
+    os="osx"
+elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+    os="linux"
+fi
+
+# Home Directories
+home=~/
+room=$home.ultimate
+bed=$room/core
+
+# Bin Directory
+bin=/usr/local/bin

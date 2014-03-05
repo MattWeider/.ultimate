@@ -1,0 +1,13 @@
+#!/bin/bash
+
+case "$2" in
+    symlink)
+        read -p "Are you sure? (y/n)? "
+        [ "$REPLY" == "y" ] && sudo rm -v /usr/local/bin/ultimate
+        ;;
+
+    *)
+        echo $docs
+        ;;
+esac
+    ;;
